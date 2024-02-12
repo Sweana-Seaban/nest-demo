@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Post,
   Put,
@@ -11,6 +12,7 @@ import {
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { BooksService } from './books.service';
+import { NotFoundError } from 'rxjs';
 
 @Controller('books')
 export class BooksController {
@@ -24,7 +26,11 @@ export class BooksController {
 
   @Get(':id')
   getOneBook(@Param('id') id: number) {
-    return this.booksService.getBook(+id);
+    try {
+      return this.booksService.getBook(+id);
+    } catch (err) {
+      throw new NotFoundException();
+    }
   }
 
   @Post()
