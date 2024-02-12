@@ -9,6 +9,7 @@ import {
   Post,
   Put,
   Query,
+  ValidationPipe,
 } from '@nestjs/common';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
@@ -34,7 +35,7 @@ export class BooksController {
   }
 
   @Post()
-  createBook(@Body() createBookDto: CreateBookDto) {
+  createBook(@Body(new ValidationPipe()) createBookDto: CreateBookDto) {
     return this.booksService.createBook(createBookDto);
   }
 
