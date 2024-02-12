@@ -5,6 +5,7 @@ import {
   Get,
   NotFoundException,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   Query,
@@ -12,7 +13,6 @@ import {
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { BooksService } from './books.service';
-import { NotFoundError } from 'rxjs';
 
 @Controller('books')
 export class BooksController {
@@ -25,9 +25,9 @@ export class BooksController {
   }
 
   @Get(':id')
-  getOneBook(@Param('id') id: number) {
+  getOneBook(@Param('id', ParseIntPipe) id: number) {
     try {
-      return this.booksService.getBook(+id);
+      return this.booksService.getBook(id);
     } catch (err) {
       throw new NotFoundException();
     }
