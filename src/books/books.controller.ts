@@ -14,36 +14,31 @@ import { BooksService } from './books.service';
 
 @Controller('books')
 export class BooksController {
+  constructor(private readonly booksService: BooksService) {}
+
   @Get()
   getBooks(@Query('genre') genre: 'tragedy' | 'fiction') {
-    const service = new BooksService();
-    return service.getBooks(genre);
+    // const service = new BooksService();
+    return this.booksService.getBooks(genre);
   }
 
   @Get(':id')
-  getOneBook(@Param('id') id: string) {
-    return {
-      id,
-    };
+  getOneBook(@Param('id') id: number) {
+    return this.booksService.getBook(+id);
   }
 
   @Post()
   createBook(@Body() createBookDto: CreateBookDto) {
-    return {
-      name: createBookDto.name,
-    };
+    return this.booksService.createBook(createBookDto);
   }
 
   @Put(':id')
-  updateBook(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
-    return {
-      id,
-      name: updateBookDto,
-    };
+  updateBook(@Param('id') id: number, @Body() updateBookDto: UpdateBookDto) {
+    return this.booksService.updateBook(+id, updateBookDto);
   }
 
   @Delete(':id')
-  removeBook() {
-    return {};
+  removeBook(@Param('id') id: string) {
+    return this.booksService.removeBook(+id);
   }
 }
